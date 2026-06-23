@@ -1,25 +1,9 @@
-# Polymarket BTC 5-Minute Arbitrage & Cross-Currency Strategies
-
-Multi-strategy Polymarket bot suite for 5-minute up/down markets.
-
----
-
-## Strategy A — BTC Momentum Arbitrage
-
-The original strategy: when BTC moves ≥$20 within a 5-minute window and the
-corresponding outcome is priced ≤50¢, place a 99¢ FOK buy.
-
-- **File**: `poly_5m_trader.py` (one-shot), `poly_engine.py` (continuous)
-- **Data**: Binance 1m klines for BTC price deviation
-
----
-
-## Strategy D — Cross-Currency Spread Arbitrage
+# Polymarket Cross-Currency Spread Arbitrage — Strategy D
 
 When BTC or ETH hits ≥95¢ on a 5-minute window, buy the cheapest correlated
-coin that's still ≤60¢ on the same side.
+coin that's still >60¢ on the same side.
 
-**How it works:**
+## How It Works
 
 1. Every second, fetches orderbook ask1 prices for 5 coins:
    BTC, ETH, SOL, XRP, BNB
@@ -34,7 +18,7 @@ coin that's still ≤60¢ on the same side.
 6. **Dedup**: one trade per 5-minute UTC window (persisted to JSON)
 7. No auto-sell, no take-profit — pure entry
 
-**Key parameters (edit at top of file):**
+## Key Parameters
 
 | Parameter | Value | Notes |
 |-----------|-------|-------|
@@ -45,14 +29,14 @@ coin that's still ≤60¢ on the same side.
 | ETH bet size | $10 | 10 lots |
 | Other bet size | $5 | 5 lots |
 
-**Files:**
+## Files
 
 | File | Description |
 |------|-------------|
 | `poly_strat_d.py` | Strategy D runner — continuous loop, 1s refresh |
 | `poly_strat_d_traded.json` | Traded window dedup (auto-created) |
 
-**Setup:**
+## Setup
 
 ```bash
 python3 -m venv venv
@@ -64,38 +48,20 @@ cp .env.example .env
 python3 poly_strat_d.py
 ```
 
----
-
-## Shared Setup
-
-### Prerequisites
+## Prerequisites
 
 - Python 3.8+
 - A Polymarket account with deposited USDC (Polygon network)
 - An API key from [clob.polymarket.com](https://clob.polymarket.com)
 - Your deposit wallet address (the Polygon wallet you deposited from)
 
-### Quick Start
-
-```bash
-git clone https://github.com/YOUR_USER/polymarket-btc-arb.git
-cd polymarket-btc-arb
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with your private key
-```
-
-### Configuration
+## Configuration
 
 Edit `.env`:
 
 ```
 POLY_PRIVATE_KEY=your_private_key_here
 ```
-
----
 
 ## License
 
